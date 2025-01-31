@@ -35,6 +35,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
             userDetailedService.increaseFailedLoginAttempts(user);
             throw new RuntimeException("incorrect password");
         } else {
+            user.setFailedLoginAttempts(0);
             return user;
         }
     }
