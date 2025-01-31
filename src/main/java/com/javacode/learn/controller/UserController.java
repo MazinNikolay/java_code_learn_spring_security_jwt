@@ -26,7 +26,7 @@ public class UserController {
         return ResponseEntity.ok("User profile");
     }
 
-    @GetMapping("/moderate")
+    @GetMapping("/moderator")
     //@PreAuthorize("hasRole('MODERATOR')")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> moderateContent() {

@@ -36,9 +36,9 @@ public class SecurityConfig {
                         authorize.requestMatchers("/app/login", "/app/register")
                                 .permitAll()
                                 .requestMatchers("/app/admin/**")
-                                .hasRole("ADMIN")
+                                .hasRole("SUPER_ADMIN")
                                 .requestMatchers("/app/moderator")
-                                .hasAnyRole("MODERATOR", "ADMIN")
+                                .hasAnyRole("MODERATOR", "SUPER_ADMIN")
                                 .anyRequest().authenticated())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
