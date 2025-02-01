@@ -44,5 +44,6 @@ public class UserRegisterServiceImpl implements UserRegisterService {
     public void deleteUser(Long id) {
         userRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("Not found"));
+        userRepository.deleteById(id);
     }
 }

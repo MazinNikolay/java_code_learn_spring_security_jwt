@@ -10,7 +10,6 @@ import javax.crypto.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.function.Function;
 
 @Component
 public class JwtUtils {
@@ -43,19 +42,6 @@ public class JwtUtils {
                 .compact();
     }
 
-    /*public String extractUsername(String token) {
-        return extractClaims(token, Claims::getSubject);
-    }*/
-
-   /* private <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        return claimsResolver.apply(claims);
-    }*/
-
     public String extractUsername(String token) {
         return extractAllClaims(token).getSubject();
     }
@@ -72,10 +58,6 @@ public class JwtUtils {
         final String extractedUsername = extractUsername(token);
         return extractedUsername.equals(username) && !isTokenExpired(token);
     }
-
-    /*private boolean isTokenExpired(String token) {
-        return extractClaims(token, Claims::getExpiration).before(new Date());
-    }*/
 
     private boolean isTokenExpired(String token) {
         return extractAllClaims(token).getExpiration().before(new Date());

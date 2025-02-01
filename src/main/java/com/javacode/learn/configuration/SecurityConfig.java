@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -43,11 +42,18 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(loggingFilter, JwtAuthenticationFilter.class)
-                .requiresChannel(channel -> channel.anyRequest()
-                        .requiresSecure());
-                //.formLogin(Customizer.withDefaults());
-                //.formLogin(form -> form.loginPage("/app/login"));
+                .addFilterBefore(loggingFilter, JwtAuthenticationFilter.class);
+               /* .requiresChannel(channel -> channel.anyRequest()
+                        .requiresSecure());*/
+
+        if ("test".equals(System.getProperty("spring.profiles.active"))) {
+            http.requiresChannel(channel -> channel.anyRequest()
+                    .requiresInsecure());
+        } else {
+            http.requiresChannel(channel -> channel.anyRequest()
+                    .requiresSecure());
+        }
+
         return http.build();
     }
 

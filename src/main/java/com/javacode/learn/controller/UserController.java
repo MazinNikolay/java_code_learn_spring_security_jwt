@@ -7,6 +7,7 @@ import com.javacode.learn.security.UserDetailedService;
 import com.javacode.learn.service.UserRegisterService;
 import com.javacode.learn.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -20,21 +21,19 @@ public class UserController {
     private final JwtUtils jwtUtils;
 
     @GetMapping("/profile")
-   // @PreAuthorize("hasRole('USER')")
+    // @PreAuthorize("hasRole('USER')")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> getProfile() {
         return ResponseEntity.ok("User profile");
     }
 
     @GetMapping("/moderator")
-    //@PreAuthorize("hasRole('MODERATOR')")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> moderateContent() {
         return ResponseEntity.ok("Moderator access");
     }
 
     @GetMapping("/admin")
-    //@PreAuthorize("hasRole('SUPER_ADMIN')")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> adminAccess() {
         return ResponseEntity.ok("Admin access");
@@ -43,7 +42,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterUserDto dto) {
         userRegisterService.createUser(dto);
-        return ResponseEntity.ok("User created");
+        return ResponseEntity.status(HttpStatus.CREATED).body("User created");
     }
 
     @PostMapping("/login")
