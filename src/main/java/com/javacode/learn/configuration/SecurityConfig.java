@@ -46,10 +46,11 @@ public class SecurityConfig {
                /* .requiresChannel(channel -> channel.anyRequest()
                         .requiresSecure());*/
 
-        if ("test".equals(System.getProperty("spring.profiles.active"))) {
+        if ("jdbc:h2:mem:testdbtest".equals(System.getProperty("spring.datasource.url"))) {
             http.requiresChannel(channel -> channel.anyRequest()
                     .requiresInsecure());
         } else {
+            System.out.println("!!!!!!!!!!!!!!!!!!!" + System.getProperty("spring.datasource.username"));
             http.requiresChannel(channel -> channel.anyRequest()
                     .requiresSecure());
         }
